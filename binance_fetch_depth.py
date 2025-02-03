@@ -9,7 +9,7 @@ last_price_doge_usdt = None
 last_quantity_doge_usdt = None
 
 # ClickHouse client
-client = Client('localhost', user='default', password='kali')
+client = Client('localhost', user='default', password='')
 
 # Function to handle incoming messages
 def on_message(ws, message):
@@ -24,7 +24,7 @@ def on_message(ws, message):
         print(f"Updated DOGE-USDT last price to {last_price_doge_usdt} and last quantity to {last_quantity_doge_usdt}")
     
     # 处理深度数据
-    elif 'e' in data and data['e'] == 'depth5':
+    elif 'e' in data and data['e'] == 'depthUpdate':  # 修改这里
         timestamp = datetime.fromtimestamp(data['E']/1000)
         bids = data['b'][:5]  # 前五档买盘
         asks = data['a'][:5]  # 前五档卖盘
@@ -67,11 +67,11 @@ def on_close(ws, close_status_code, close_msg):
 # 连接开启处理
 def on_open(ws):
     print("### Connection Opened ###")
-    # 订阅DOGEUSDT永续合约的ticker和depth5
+    # 订阅DOGEUSDT永续合约的ticker和depth5，更新速度为500ms
     subscribe_message = {
         "method": "SUBSCRIBE",
         "params": [
-            "dogeusdt@depth5",
+            "dogeusdt@depth5@500ms",  # 修改这里
             "dogeusdt@ticker"
         ],
         "id": 1

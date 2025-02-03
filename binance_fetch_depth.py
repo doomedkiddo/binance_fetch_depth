@@ -43,7 +43,7 @@ def on_message(ws, message):
         
         # 插入ClickHouse
         client.execute(
-            '''INSERT INTO binance_doge_usdt_swap (
+            '''INSERT INTO binance_doge_usdt_futures (
                 Timestamp, Last_Price, Last_Quantity,
                 Ask0_Price, Ask0_Volume, Ask1_Price, Ask1_Volume, 
                 Ask2_Price, Ask2_Volume, Ask3_Price, Ask3_Volume,
